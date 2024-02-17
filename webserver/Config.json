@@ -1,0 +1,23 @@
+{
+    "ssl": false,
+    "sslCert": "",
+    "sslKey": "",
+
+    "port": "2053",
+
+    "database": {
+        "host":     "localhost",
+        "user":     "db_user",
+        "port":     "3306",
+        "database": "db_name",
+        "password": "pass"
+    },
+
+    "token": "your_token",
+    "demos": {
+        "CleanType": "count",
+        "DaysOrCount": 500,
+        "TimeClear": 60,
+        "UploadDir": "path_toupload_demos"
+    }
+}

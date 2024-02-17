@@ -1,0 +1,23 @@
+{
+  "name": "demos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "demo.js",
+  "scripts": {
+    "test": "node demos.js",
+    "start": "pm2 start demos.js",
+    "stop": "pm2 stop demos.js",
+    "restart": "pm2 restart demos.js"
+  },
+  "author": "SAPSAN",
+  "license": "GPL",
+  "dependencies": {
+    "archiver": "^6.0.1",
+    "express": "^4.18.2",
+    "express-handlebars": "^7.1.2",
+    "formidable": "^3.5.1",
+    "fs": "^0.0.1-security",
+    "mysql2": "^3.9.1",
+    "path": "^0.12.7"
+  }
+}

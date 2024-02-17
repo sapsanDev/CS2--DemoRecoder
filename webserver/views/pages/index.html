@@ -1,0 +1,13 @@
+
+<h1 class="p-3 mb-3 text-center">Demo Recorder</h1>
+<div class="col-10 m-auto row p-1 border border-secondary rounded pb-0" id="demo__container">
+	{{#each Demos as | demo |}}
+		<div class="col-12 d-flex align-items-center p-1 bg-secondary rounded mb-1 ">
+			<div class="col-1 me-1"><img class="rounded" height="50" width="85" src="{{mapImg}}"></div>
+			<div class="col-5">{{server_name}}</div>
+			<div class="col-2">{{map}}</div>
+			<div class="col-2">{{date}}</div>
+			<div class="col-1 "><a href="/download/{{file}}.zip" class="btn btn-sm btn-success shadow">Download</a></div>
+		</div>
+	{{/each}}
+</div>
