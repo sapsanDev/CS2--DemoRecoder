@@ -266,19 +266,18 @@ FS.readFile('./Config.json', {encoding:'utf8', flag:'r'}, async (err, data) =>
                     }
 
                     let TMPPath = TMPDir + DemoName;
-
-                    FS.rename(files.file.filepath, TMPPath, async (err) => 
+                    try 
                     {
-                        if (err) 
+                        FS.rename(files.file[0].filepath, TMPPath, async (err) => 
                         {
-                            console.log(`ERROR (PUT /upload): ${err}`);
-                        }
-                        else
-                        {
-                            console.log(`File demo (${DemoName}) uploaded to ${TMPPath}`);
-
-                            try 
+                            if (err) 
                             {
+                                console.log(`ERROR (PUT /upload): ${err}`);
+                            }
+                            else
+                            {
+                                console.log(`File demo (${DemoName}) uploaded to ${TMPPath}`);
+
                                 await saveDemosData(dbP, DemoName, SID, MapName, ServerName, DateString);
                                 const ZIPFile = await archiveFile(TMPPath, DemoName);
 
@@ -299,14 +298,13 @@ FS.readFile('./Config.json', {encoding:'utf8', flag:'r'}, async (err, data) =>
                                 FS.unlink(TMPPath, () => { console.log(`Original file demo (${DemoName}) deleted!`)});
                                 res.send(true);
                                 res.end();
-
-                            } 
-                            catch (err) 
-                            {
-                                console.log(`ERROR Upload Demo: ${err}`);
                             }
-                        }
-                    });
+                        });
+                    } 
+                    catch (err) 
+                    {
+                        console.log(`ERROR Upload Demo: ${err}`);
+                    }
                 });
             }
         });
