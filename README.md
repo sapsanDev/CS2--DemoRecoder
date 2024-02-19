@@ -22,7 +22,7 @@ Configure the file DemoRecorder.json generated on addons/counterstrikesharp/conf
 * ServerId - 1: Unique server ID.
 * DemosDir - "demos/": The folder for recording the demo on the server is created along the path addons/counterstrikesharp/data/
 * Token - "your_web_app_token": Your WEB token for uploading demo to the site.
-* TeleportTicks - "http://example.com:2053/upload": Demo download handler address.
+* UploadUrl - "http://example.com:2053/upload": Demo download handler address.
 
 ### Commands
 * css_dr_reload - Reload config DemoRecorder.json. Access @css/root
