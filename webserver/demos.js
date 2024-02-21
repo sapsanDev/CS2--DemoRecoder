@@ -1,16 +1,14 @@
 'use strict';
 
-const FS = require('fs');
-const Express = require('express');
-const App = Express();
-const Exphbs = require('express-handlebars');
-const FORM = require('formidable');
-const Path = require('path');
-const RAR = require('archiver');
-
-const MYSQL = require('mysql2');
-
-const TMPDir = './tmp/';
+const   FS = require('fs'),
+        Express = require('express'),
+        App = Express(),
+        Exphbs = require('express-handlebars'),
+        FORM = require('formidable'),
+        Path = require('path'),
+        RAR = require('archiver'),
+        {parseHeader} = require('@laihoe/demoparser2'),
+        MYSQL = require('mysql2');
 
 let CFG = {};
 
@@ -252,8 +250,6 @@ FS.readFile('./Config.json', {encoding:'utf8', flag:'r'}, async (err, data) =>
                 {
                     const DemoName = req.header('Demo-Name'),
                         SID = req.header('Demo-ServerId'),
-                        ServerName = req.header('Server-Name'),
-                        MapName = req.header('Map-Name'),
                         DateString = req.header('Demo-Time');
 
                     console.log(`Try demo (${DemoName}) upload. SID: ${SID}, Time: ${DateString}`);
@@ -265,7 +261,7 @@ FS.readFile('./Config.json', {encoding:'utf8', flag:'r'}, async (err, data) =>
                         return;
                     }
 
-                    let TMPPath = TMPDir + DemoName;
+                    let TMPPath = `${CFG.demos.UploadDir}/${DemoName}`;
                     try 
                     {
                         FS.rename(files.file[0].filepath, TMPPath, async (err) => 
@@ -278,22 +274,10 @@ FS.readFile('./Config.json', {encoding:'utf8', flag:'r'}, async (err, data) =>
                             {
                                 console.log(`File demo (${DemoName}) uploaded to ${TMPPath}`);
 
-                                await saveDemosData(dbP, DemoName, SID, MapName, ServerName, DateString);
-                                const ZIPFile = await archiveFile(TMPPath, DemoName);
+                                let Header = await parseHeader(TMPPath);
 
-                                let UploadZIPFile = ZIPFile.slice(TMPDir.length);
-
-                                UploadZIPFile =`${CFG.demos.UploadDir}/${UploadZIPFile}`;
-
-                                FS.rename(ZIPFile, UploadZIPFile, (err) => 
-                                {
-                                    if (err) 
-                                    {
-                                        throw err;
-                                    }
-
-                                    console.log(`File demo (${ZIPFile}) moved to ${UploadZIPFile}`);
-                                });
+                                await saveDemosData(dbP, DemoName, SID, Header.map_name, Header.server_name, DateString);
+                                await archiveFile(TMPPath, DemoName);
 
                                 FS.unlink(TMPPath, () => { console.log(`Original file demo (${DemoName}) deleted!`)});
                                 res.send(true);
