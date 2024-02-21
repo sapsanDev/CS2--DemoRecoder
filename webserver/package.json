@@ -12,6 +12,7 @@
   "author": "SAPSAN",
   "license": "GPL",
   "dependencies": {
+    "@laihoe/demoparser2": "^0.18.0",
     "archiver": "^6.0.1",
     "express": "^4.18.2",
     "express-handlebars": "^7.1.2",
